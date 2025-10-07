@@ -1,21 +1,19 @@
 #%%
-from config.credentials import TOKEN_BRAPI, TICKERS
-import requests
-import pandas as pd
+from config.credentials import TOKEN_BRAPI, TOKEN, HOSTNAME, HTTP_PATH, TICKERS
+from modules.extract_preco import ExtractPreco
+from modules.easy_databricks import EasyDatabricks
 
-dfs = []
-for ticker in tickers:
-    url = f'https://brapi.dev/api/quote/{ticker}?token={TOKEN_BRAPI}'
+print("Extraindo cotações..." )
+fetcher = ExtractPreco(TICKERS, TOKEN_BRAPI)
+fetcher.fetch_prices()
+df_precos = fetcher.get_dataframe()
 
-    response = requests.get(url)
-    data = response.json()
+print("Salvando no Databricks...")
+easy_databricks = EasyDatabricks(TOKEN, HOSTNAME, HTTP_PATH).bricks_connection()
+easy_databricks.create_table(df_precos, 
+                             schema_name = "investimentos", 
+                             table_name = "cotacoes", 
+                             mode = "overwrite")
 
-    df = pd.DataFrame(data["results"])
-    precos = df[['symbol', 'regularMarketPreviousClose', 'regularMarketTime']]
-    dfs.append(precos)
-
-df_precos = pd.concat(dfs)
-df_precos.rename(columns={"symbol": "ATIVO", "regularMarketPreviousClose": "PRECO_FECHAMENTO", "regularMarketTime": "DATA"}, inplace=True)
-df_precos["DATA"] = pd.to_datetime(df_precos["DATA"].str[:10], format='%Y-%m-%d')
-df_precos
+print("Fim!")
 #%%
