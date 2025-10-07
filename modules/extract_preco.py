@@ -56,6 +56,8 @@ class ExtractPreco:
                 format='%Y-%m-%d'
             )
 
+            df_precos["ATIVO"] = df_precos["ATIVO"].apply(lambda x: x.split(".SA")[0])
+
             # Armazena no atributo da classe
             self.df_precos = df_precos
         else:
