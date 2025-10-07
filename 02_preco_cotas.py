@@ -13,7 +13,6 @@ easy_databricks = EasyDatabricks(TOKEN, HOSTNAME, HTTP_PATH).bricks_connection()
 easy_databricks.create_table(df_precos, 
                              schema_name = "investimentos", 
                              table_name = "cotacoes", 
-                             mode = "overwrite")
+                             mode = "append")
 
 print("Fim!")
-#%%
