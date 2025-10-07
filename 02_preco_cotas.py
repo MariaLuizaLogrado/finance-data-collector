@@ -1,13 +1,11 @@
 #%%
-from config.credentials import TOKEN
+from config.credentials import TOKEN_BRAPI, TICKERS
 import requests
 import pandas as pd
 
-tickers = ["KNCR11", "RZAK11", "XPML11", "TRXF11", "TGAR11"]
-
 dfs = []
 for ticker in tickers:
-    url = f'https://brapi.dev/api/quote/{ticker}?token={TOKEN}'
+    url = f'https://brapi.dev/api/quote/{ticker}?token={TOKEN_BRAPI}'
 
     response = requests.get(url)
     data = response.json()

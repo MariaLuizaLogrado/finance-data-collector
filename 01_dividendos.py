@@ -1,31 +1,19 @@
-#%%
-import yfinance as yf
-import pandas as pd
-from datetime import datetime, timedelta
-
-tickers = ["KNCR11.SA", "RZAK11.SA", "XPML11.SA", "TRXF11.SA", "TGAR11.SA"]
-one_year_ago = datetime.now() - timedelta(days=365)
-
-dfs = []
-for ticker in tickers:
-    fii = yf.Ticker(ticker)
-    dividends = fii.dividends
-
-    dividends.index = dividends.index.tz_localize(None)
-
-    dividends_12m = dividends[dividends.index >= one_year_ago]
-
-    df_div = dividends_12m.reset_index()
-    df_div.columns = ["paymentDate", "dividend"]
-    df_div['MEDIA_DIVIDENDOS'] = df_div.dividend.mean()
-    df_div["ATIVO"] = ticker
-    dfs.append(df_div)
-
-df_concat = pd.concat(dfs)
-df_grp = df_concat.groupby("ATIVO").agg({"paymentDate":"last", "MEDIA_DIVIDENDOS": "last", "dividend": "last"}).reset_index()
+from config.credentials import TOKEN, HOSTNAME, HTTP_PATH, TICKERS
+from modules.easy_databricks import EasyDatabricks
+from modules.extract_dividendos import ExtractDividendos
 
 
-df_dividendos = df_grp.rename(columns={"paymentDate": "DATA_PAGAMENTO", "dividend": "DIVIDENDO"})
+print("Extraindo dividendos...")
+fetcher = ExtractDividendos(TICKERS)
+fetcher.fetch_dividends()
+fetcher.process_dividends()
+df_dividendos = fetcher.get_dataframe()
 
-df_dividendos = df_grp["ATIVO"] = df_grp["ATIVO"].apply(lambda x: x.split('.SA')[0])
-#%%
+print("Salvando no Databricks...")
+easy_databricks = EasyDatabricks(TOKEN, HOSTNAME, HTTP_PATH).bricks_connection()
+easy_databricks.create_table(df_dividendos, 
+                             schema_name = "investimentos", 
+                             table_name = "dividendos", 
+                             mode = "append")
+
+print("Fim!")
