@@ -24,9 +24,9 @@ jobs:
 
       - name: Executar script principal
         env:
-          TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
-          HOSTNAME: ${{ secrets.DATABRICKS_HOSTNAME }}
-          HTTP_PATH: ${{ secrets.DATABRICKS_HTTP_PATH }}
+          TOKEN: ${{ secretsTOKEN }}
+          HOSTNAME: ${{ secrets.HOSTNAME }}
+          HTTP_PATH: ${{ secrets.HTTP_PATH }}
           TICKERS: ${{ secrets.TICKERS }}
           TOKEN_BRAPI: ${{ secrets.TOKEN_BRAPI }}
         run: |
