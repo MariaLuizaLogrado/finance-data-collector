@@ -1,7 +1,13 @@
-from config.credentials import TOKEN, HOSTNAME, HTTP_PATH, TICKERS
+# from config.credentials import TOKEN, HOSTNAME, HTTP_PATH, TICKERS
 from modules.easy_databricks import EasyDatabricks
 from modules.extract_dividendos import ExtractDividendos
+import os
 
+
+TOKEN = os.getenv("TOKEN")
+HOSTNAME = os.getenv("HOSTNAME")
+HTTP_PATH = os.getenv("HTTP_PATH")
+TICKERS = os.getenv("TICKERS")
 
 print("Extraindo dividendos...")
 fetcher = ExtractDividendos(TICKERS)

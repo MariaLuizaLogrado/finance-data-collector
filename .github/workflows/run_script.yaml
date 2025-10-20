@@ -1,0 +1,32 @@
+name: Executar script diariamente
+
+on:
+  schedule:
+    # Roda todos os dias às 9h (UTC = 6h no Brasil)
+    - cron: "0 12 * * *"
+  workflow_dispatch: # permite rodar manualmente
+
+jobs:
+  run-python-script:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Baixar o repositório
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Instalar dependências
+        run: |
+          pip install -r requirements.txt
+
+      - name: Executar script principal
+        env:
+          TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+          HOSTNAME: ${{ secrets.DATABRICKS_HOSTNAME }}
+          HTTP_PATH: ${{ secrets.DATABRICKS_HTTP_PATH }}
+        run: |
+          python scripts/02_preco_cotas.py
