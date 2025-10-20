@@ -2,13 +2,13 @@
 # from config.credentials import TOKEN_BRAPI, TOKEN, HOSTNAME, HTTP_PATH, TICKERS
 from modules.extract_preco import ExtractPreco
 from modules.easy_databricks import EasyDatabricks
-import os
+import os, json
 
 
 TOKEN = os.getenv("TOKEN")
 HOSTNAME = os.getenv("HOSTNAME")
 HTTP_PATH = os.getenv("HTTP_PATH")
-TICKERS = os.getenv("TICKERS")
+TICKERS = json.loads(os.getenv("TICKERS"))
 TOKEN_BRAPI = os.getenv("TOKEN_BRAPI")
 
 
