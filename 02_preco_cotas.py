@@ -11,7 +11,7 @@ HTTP_PATH = os.getenv("HTTP_PATH")
 TOKEN_BRAPI = os.getenv("TOKEN_BRAPI")
 TICKERS = os.getenv("TICKERS")
 
-print(TICKERS)
+print(HOSTNAME)
 
 print("Extraindo cotações..." )
 fetcher = ExtractPreco(TICKERS, TOKEN_BRAPI)
