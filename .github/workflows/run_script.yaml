@@ -28,4 +28,4 @@ jobs:
           HOSTNAME: ${{ secrets.DATABRICKS_HOSTNAME }}
           HTTP_PATH: ${{ secrets.DATABRICKS_HTTP_PATH }}
         run: |
-          python scripts/02_preco_cotas.py
+          python ./02_preco_cotas.py
