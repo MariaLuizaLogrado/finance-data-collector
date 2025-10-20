@@ -29,4 +29,5 @@ jobs:
           HOSTNAME: ${{ secrets.DATABRICKS_HOSTNAME }}
           HTTP_PATH: ${{ secrets.DATABRICKS_HTTP_PATH }}
         run: |
+         cd finance-data-collector
           python scripts/02_preco_cotas.py
