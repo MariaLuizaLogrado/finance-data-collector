@@ -8,8 +8,8 @@ import os
 TOKEN = os.getenv("TOKEN")
 HOSTNAME = os.getenv("HOSTNAME")
 HTTP_PATH = os.getenv("HTTP_PATH")
-TOKEN_BRAPI = os.getenv("TOKEN_BRAPI")
 TICKERS = os.getenv("TICKERS")
+TOKEN_BRAPI = os.getenv("TOKEN_BRAPI")
 
 
 print("Extraindo cotações..." )
