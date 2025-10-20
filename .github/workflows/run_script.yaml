@@ -27,5 +27,7 @@ jobs:
           TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
           HOSTNAME: ${{ secrets.DATABRICKS_HOSTNAME }}
           HTTP_PATH: ${{ secrets.DATABRICKS_HTTP_PATH }}
+          TICKERS: ${{ secrets.TICKERS }}
+          TOKEN_BRAPI: ${{ secrets.TOKEN_BRAPI }}
         run: |
           python ./02_preco_cotas.py
