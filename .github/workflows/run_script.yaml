@@ -2,9 +2,8 @@ name: Executar script diariamente
 
 on:
   schedule:
-    # Roda todos os dias às 9h (UTC = 6h no Brasil)
-    - cron: "0 12 * * *"
-  workflow_dispatch: # permite rodar manualmente
+    - cron: "0 12 * * *"  # Roda às 9h (horário de Brasília = UTC-3)
+  workflow_dispatch:
 
 jobs:
   run-python-script:
@@ -29,5 +28,4 @@ jobs:
           HOSTNAME: ${{ secrets.DATABRICKS_HOSTNAME }}
           HTTP_PATH: ${{ secrets.DATABRICKS_HTTP_PATH }}
         run: |
-         cd finance-data-collector
           python scripts/02_preco_cotas.py
