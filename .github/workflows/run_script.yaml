@@ -1,33 +1,44 @@
-name: Executar script diariamente
+name: Coletar dados financeiros
 
 on:
+  workflow_dispatch:   # botão manual
   schedule:
-    - cron: "0 12 * * *"  # Roda às 9h (horário de Brasília = UTC-3)
-  workflow_dispatch:
+    - cron: "0 12 * * *"  # roda diariamente às 9h Brasília (UTC-3)
 
 jobs:
-  run-python-script:
+  run-python-scripts:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Baixar o repositório
+      # 1️⃣ Clonar o repositório
+      - name: Checkout do repositório
         uses: actions/checkout@v4
 
-      - name: Configurar Python
+      # 2️⃣ Configurar Python
+      - name: Configurar Python 3.10
         uses: actions/setup-python@v5
         with:
           python-version: '3.10'
 
+      # 3️⃣ Instalar dependências
       - name: Instalar dependências
-        run: |
-          pip install -r requirements.txt
+        run: pip install -r requirements.txt
 
-      - name: Executar script principal
+      # 4️⃣ Rodar script 01_dividendos.py
+      - name: Executar 01_dividendos.py
         env:
           TOKEN: ${{ secrets.TOKEN }}
           HOSTNAME: ${{ secrets.HOSTNAME }}
           HTTP_PATH: ${{ secrets.HTTP_PATH }}
           TICKERS: ${{ secrets.TICKERS }}
+        run: python ./01_dividendos.py
+
+      # 5️⃣ Rodar script 02_preco_cotas.py
+      - name: Executar 02_preco_cotas.py
+        env:
+          TOKEN: ${{ secrets.TOKEN }}
+          HOSTNAME: ${{ secrets.HOSTNAME }}
+          HTTP_PATH: ${{ secrets.HTTP_PATH }}
           TOKEN_BRAPI: ${{ secrets.TOKEN_BRAPI }}
-        run: |
-          python ./02_preco_cotas.py
+          TICKERS: ${{ secrets.TICKERS }}
+        run: python ./02_preco_cotas.py
