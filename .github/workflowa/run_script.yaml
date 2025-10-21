@@ -24,7 +24,7 @@ jobs:
 
       - name: Executar script principal
         env:
-          TOKEN: ${{ secretsTOKEN }}
+          TOKEN: ${{ secrets.TOKEN }}
           HOSTNAME: ${{ secrets.HOSTNAME }}
           HTTP_PATH: ${{ secrets.HTTP_PATH }}
           TICKERS: ${{ secrets.TICKERS }}
