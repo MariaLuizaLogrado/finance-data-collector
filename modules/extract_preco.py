@@ -35,7 +35,7 @@ class ExtractPreco:
                 continue
 
             # Seleciona colunas importantes
-            precos = df[['symbol', 'regularMarketPreviousClose', 'regularMarketTime']].copy()
+            precos = df[['symbol', 'regularMarketPreviousClose']].copy()
             precos["CATEGORIA"] = categoria
             dfs.append(precos)
 
@@ -46,15 +46,11 @@ class ExtractPreco:
             # Renomeia colunas
             df_precos.rename(columns={
                 "symbol": "ATIVO",
-                "regularMarketPreviousClose": "PRECO_FECHAMENTO",
-                "regularMarketTime": "DATA_PROCESSAMENTO"
+                "regularMarketPreviousClose": "PRECO_FECHAMENTO"
             }, inplace=True)
 
             # Converte datas para datetime
-            df_precos["DATA_PROCESSAMENTO"] = pd.to_datetime(
-                df_precos["DATA_PROCESSAMENTO"].astype(str).str[:10],
-                format='%Y-%m-%d'
-            )
+            df_precos["DATA_PROCESSAMENTO"] = datetime.now()
 
             df_precos["ATIVO"] = df_precos["ATIVO"].apply(lambda x: x.split(".SA")[0])
 
