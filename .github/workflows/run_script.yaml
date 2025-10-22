@@ -3,7 +3,7 @@ name: Coletar dados financeiros
 on:
   workflow_dispatch:   # botão manual
   schedule:
-    - cron: "0 12 * * 1-5" # roda de segunda a sexta às 9h Brasília (UTC-3)
+    - cron: "30 17 * * 1-5" # roda de segunda a sexta às 14h 30min Brasília (UTC-3)
 
 jobs:
   run-python-scripts:
