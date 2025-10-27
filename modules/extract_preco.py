@@ -55,7 +55,7 @@ class ExtractPreco:
             df_precos["ATIVO"] = df_precos["ATIVO"].apply(lambda x: x.split(".SA")[0])
 
             # Armazena no atributo da classe
-            self.df_precos = df_precos
+            self.df_precos = df_precos[["ATIVO", "PRECO_FECHAMENTO", "DATA_PROCESSAMENTO", "CATEGORIA"]]
         else:
             print("Nenhum dado foi retornado pela API.")
 
